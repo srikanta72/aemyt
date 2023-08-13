@@ -1,0 +1,85 @@
+<div data-sly-test.exists="${resource.getChildren}">
+    <!--/* =========Using Sling model========== */-->
+    <h2><strong>Using Sling model</strong></h2>
+    <div data-sly-use.model="com.adobe.aem.guides.wknd.core.models.NestedFieldModel">
+        <p>Brands</p>
+
+        <!--/* Iterate over Brands */-->
+        <ul data-sly-list.brands="${model.brands}">
+            <li>Name: ${brands.brandName}</li>
+            <li>brandModel:
+
+                <!--/* Iterate over Models of each brand */-->
+                <ul data-sly-list.brandModel="${brands.brandModel}">
+                    <li>modelName: ${brandModel.modelName}</li>
+                    <li>year: ${brandModel.year}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <hr />
+
+    <!--/* =========Using HTL========== */-->
+    <h2><strong>Using HTL </strong></h2>
+    <!--/* Get all child resources */-->
+    <div data-sly-list.brandsMultifield="${resource.getChildren}">
+
+        <div data-sly-test="${brandsMultifield.name == 'brands'}">
+            <p>brands</p>
+
+            <ul data-sly-list.brands="${brandsMultifield.getChildren}">
+                <li>Name: ${brands.brandName}</li>
+                <li>brandModel:
+
+                    <!--/* Get all child resources */-->
+                    <div data-sly-list.brandModelMultifield="${brands.getChildren}">
+
+                        <!--/* Check if its the brandModel multifield and iterate over its children */-->
+                        <ul data-sly-test="${brandModelMultifield.name == 'brandModel'}"
+                            data-sly-list.brandModel="${brandModelMultifield.getChildren}">
+
+                            <li>modelName: ${brandModel.modelName}</li>
+                            <li>year: ${brandModel.year}</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr />
+
+    <!--/* =========Using JS USE API========== */-->
+    <h2><strong>Using JS USE API</strong></h2>
+    <!--/* Get all child resources of brands */-->
+    <div data-sly-use.brandsMultifield="${'/apps/wknd/useapi/js/listuse.js' @ multifieldName='brands'}">
+
+        <p>brands</p>
+        <!-- brandsMultifield: ${brandsMultifield}, -->
+        <!-- brandsMultifield-name: ${brandsMultifield.name},  -->
+        <!-- brandsMultifield-path: ${brandsMultifield.path} -->
+        <ul data-sly-list.eachBrand="${brandsMultifield}">
+            <!-- <li>Node Name: ${eachBrand.name}</li> -->
+            <li>Name: ${eachBrand.properties.brandName}</li>
+            <!-- <li>Node Path: ${eachBrand.path}</li> -->
+            <li>brandModel:
+                <!--/* Get all child resources of brandModel */-->
+                <div
+                    data-sly-use.brandModelsMultifield="${'/apps/wknd/useapi/js/listuse.js' @ absolutePath=eachBrand.path, multifieldName='brandModel'}">
+                    <ul data-sly-list.brandModel="${brandModelsMultifield}">
+
+                        <!-- <li>modelName1: ${brandModel}</li> -->
+                        <!-- <li>modelName1-name: ${brandModel.name}</li> -->
+                        <!-- <li>modelName1-path: ${brandModel.path}</li> -->
+                        <li>modelName: ${brandModel.properties.modelName}</li>
+                        <li>year: ${brandModel.properties.year}</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <hr />
+
+</div>
+<sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+    data-sly-call="${template.placeholder @ isEmpty=!exists, classAppend='cmp-nested-field', emptyTextAppend='Nested Field Component'}">
+</sly>
