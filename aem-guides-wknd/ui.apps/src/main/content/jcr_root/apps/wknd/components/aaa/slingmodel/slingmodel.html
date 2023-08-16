@@ -1,0 +1,59 @@
+<div data-sly-use.model="com.adobe.aem.guides.wknd.core.models.SlingModel">
+    <div data-sly-test.exists="${model.title}">Title: ${model.title}</div>
+    <div data-sly-test="${model.description}">Description: ${model.description}</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<sly data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+    data-sly-call="${template.placeholder @ isEmpty=!exists, classAppend='cmp-card', emptyTextAppend='Preview'}">
+</sly>

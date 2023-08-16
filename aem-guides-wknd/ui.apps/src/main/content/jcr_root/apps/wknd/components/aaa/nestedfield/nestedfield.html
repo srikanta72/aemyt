@@ -1,16 +1,19 @@
 <div data-sly-test.exists="${resource.getChildren}">
+
+    <h1>${properties.category}</h1>
+
     <!--/* =========Using Sling model========== */-->
     <h2><strong>Using Sling model</strong></h2>
     <div data-sly-use.model="com.adobe.aem.guides.wknd.core.models.NestedFieldModel">
         <p>Brands</p>
 
         <!--/* Iterate over Brands */-->
-        <ul data-sly-list.brands="${model.brands}">
-            <li>Name: ${brands.brandName}</li>
+        <ul data-sly-list.eachBrand="${model.brands}">
+            <li>Name: ${eachBrand.brandName}</li>
             <li>brandModel:
 
                 <!--/* Iterate over Models of each brand */-->
-                <ul data-sly-list.brandModel="${brands.brandModel}">
+                <ul data-sly-list.brandModel="${eachBrand.brandModel}">
                     <li>modelName: ${brandModel.modelName}</li>
                     <li>year: ${brandModel.year}</li>
                 </ul>
